@@ -224,12 +224,12 @@
 
         <div class="otp-label">OTP</div>
         <div class="otp-group">
-            <input type="text" class="otp-box" maxlength="1">
-            <input type="text" class="otp-box" maxlength="1">
-            <input type="text" class="otp-box" maxlength="1">
-            <input type="text" class="otp-box" maxlength="1">
-            <input type="text" class="otp-box" maxlength="1">
-            <input type="text" class="otp-box" maxlength="1">
+            <input type="tel" class="otp-box" maxlength="1" inputmode="numeric">
+            <input type="tel" class="otp-box" maxlength="1" inputmode="numeric">
+            <input type="tel" class="otp-box" maxlength="1" inputmode="numeric">
+            <input type="tel" class="otp-box" maxlength="1" inputmode="numeric">
+            <input type="tel" class="otp-box" maxlength="1" inputmode="numeric">
+            <input type="tel" class="otp-box" maxlength="1" inputmode="numeric">
         </div>
 
         <div class="resend">Resend OTP in <span id="timer">116</span> seconds</div>
@@ -305,8 +305,11 @@
         }
 
         otpBoxes.forEach((box, index) => {
-            box.addEventListener('input', () => {
-                if (box.value.length === 1 && index < 5) {
+            box.addEventListener('input', (e) => {
+                // Only allow numbers
+                e.target.value = e.target.value.replace(/[^0-9]/g, '');
+                
+                if (e.target.value.length === 1 && index < 5) {
                     otpBoxes[index + 1].focus();
                 }
                 checkOtpComplete();
